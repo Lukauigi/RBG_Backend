@@ -3,14 +3,17 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const app = express();
+require('dotenv').config();
 const PORT = process.env.PORT || 5000;
+const testUrl = "https://www.pricecharting.com/game/nintendo-64/donkey-kong-64";
+const baseUrl = "https://www.pricecharting.com/game"
 
-app.get('/parse-price', async (req, res) => {
-  // const url = req.query.url;
-  const url = "https://www.pricecharting.com/game/nintendo-64/donkey-kong-64";
-  console.log('Fetching URL:', url);
-  if (!url) return res.status(400).send('Missing url param');
+app.get('/parse-price/:platform/:title', async (req, res) => {
+  const { platform, title } = req.params;
+  console.log(`Plat: ${platform} ### Title: ${title}`);
+  if (!platform | !title) return res.status(400).send('Missing params');
 
+  const url = `${baseUrl}/${platform}/${title}`; 
   try {
     const { data: html } = await axios.get(url, {
       headers: {
