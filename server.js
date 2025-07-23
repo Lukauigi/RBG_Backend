@@ -24,11 +24,11 @@ app.get('/parse-price/:platform/:title', async (req, res) => {
     });
     const $ = cheerio.load(html);
 
-    // Queries
+    // Queries to scrape price text (e.g.: $24.15) as floats
     const prices = {
-      loose: $('#used_price .price').text().trim(),
-      complete: $('#complete_price .price').text().trim(),
-      new: $('#new_price .price').text().trim()
+      loose: parseFloat($('#used_price .price').text().trim().replace("$", "")),
+      complete: parseFloat($('#complete_price .price').text().trim().replace("$", "")),
+      new: parseFloat($('#new_price .price').text().trim().replace("$", ""))
     };
 
     console.log(prices);
