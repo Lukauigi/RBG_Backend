@@ -26,9 +26,9 @@ app.get('/parse-price/:platform/:title', async (req, res) => {
 
     // Queries to scrape price text (e.g.: $24.15) as floats
     const prices = {
-      loose: parseFloat($('#used_price .price').text().trim().replace("$", "")),
-      complete: parseFloat($('#complete_price .price').text().trim().replace("$", "")),
-      new: parseFloat($('#new_price .price').text().trim().replace("$", ""))
+      loose: parseFloat($('#used_price .price').text().trim().replace(/[$,]/g, "")),
+      complete: parseFloat($('#complete_price .price').text().trim().replace(/[$,]/g, "")),
+      new: parseFloat($('#new_price .price').text().trim().replace(/[$,]/g, ""))
     };
 
     console.log(prices);
